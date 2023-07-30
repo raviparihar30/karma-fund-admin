@@ -1,0 +1,77 @@
+/* Layout.css */
+
+/* Style the button that toggles the sidebar */
+.sidebar-toggle-button {
+  display: none;
+  text-align: center;
+  padding: 10px;
+  background-color: #007bff; /* Change to your desired color */
+  color: #fff; /* Text color for the button */
+  border: none;
+  cursor: pointer;
+}
+
+/* Show the button on mobile */
+@media (max-width: 767.98px) {
+  .sidebar-toggle-button {
+    display: block;
+  }
+}
+
+/* Override the default Offcanvas width */
+.offcanvas-start {
+  width: 250px; /* Set your desired width for the sidebar drawer */
+}
+
+/* Sidebar Styles */
+.sidebar {
+  background-color: #f8f9fa; /* Set your desired background color */
+  height: 100vh; /* Set the sidebar height to cover the entire viewport */
+  padding-top: 20px; /* Add top padding for the content inside the sidebar */
+}
+
+/* Main Content Area Styles */
+.main-content {
+  padding: 20px; /* Add padding around the main content area */
+}
+
+/* Navigation bar styles */
+.navbar {
+  background-color: #f8f9fa; /* Set your desired background color for the navigation bar */
+  color: #333; /* Text color for the navigation bar */
+  padding: 10px; /* Add padding to the navigation bar */
+}
+
+/* Style the links in the navigation bar */
+.navbar-nav .nav-link {
+  color: #333; /* Link text color */
+  padding: 5px 10px; /* Add padding around the links */
+  transition: background-color 0.3s; /* Add transition for smooth hover effect */
+  background-color: #fff !important;
+}
+
+/* Hover effect for the links in the navigation bar */
+.navbar-nav .nav-link:hover {
+  background-color: #007bff; /* Set your desired hover background color */
+  color: #fff; /* Text color on hover */
+}
+/* Layout.css */
+.mobile-content {
+  padding-left: 0; /* Remove left padding for mobile devices */
+}
+
+/* Add a mobile-navbar style for the mobile toggle button */
+.mobile-navbar {
+  display: flex;
+  justify-content: flex-start;
+  padding: 8px;
+  background-color: #f8f9fa;
+}
+
+.menu-button {
+  font-size: 24px;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  color: #007bff; /* Customize the color to your preference */
+}

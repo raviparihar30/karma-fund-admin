@@ -1,38 +1,149 @@
-.App {
-  text-align: center;
+/* App.css */
+body,
+html,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.container-fluid {
+  height: 100%;
+  padding: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.row {
+  height: 100%;
+  margin: 0;
+}
+
+/* Sidebar styles */
+.sidebar {
+  background-color: #343a40;
+  color: #fff;
+  padding-top: 20px;
+  height: 100%; /* Set sidebar height to occupy full row height */
+}
+
+.sidebar .navbar-brand {
+  font-size: 1.5rem;
+  padding: 10px 20px;
+}
+
+.sidebar .nav-link {
+  color: #fff;
+  padding: 8px 20px;
+}
+
+.sidebar .nav-link:hover {
+  background-color: #4a4e54;
+  color: #fff;
+}
+
+/* Main content styles */
+.main-content {
+  padding: 20px;
+  height: 100%; /* Set main content height to occupy full row height */
+  overflow: scroll;
+}
+
+/* Header styles */
+.navbar {
+  background-color: #343a40;
+  color: #fff;
+  padding: 10px 20px;
+}
+
+.navbar .form-inline .form-control {
+  margin-right: 10px;
+}
+
+.navbar .search-icon {
+  color: #fff;
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+/* Custom styles for BlogCreationPage */
+.blog-creation {
+  margin: 20px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+}
+
+.blog-creation h1 {
+  margin-bottom: 20px;
+}
+
+/* Quill editor styles */
+.ql-toolbar {
+  background-color: #f8f9fa;
+  border: none;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.ql-container {
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+}
+
+.ql-editor {
+  min-height: 200px;
+}
+
+/* Responsive styles */
+@media (max-width: 767px) {
+  .main-content {
+    padding-top: 70px;
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+@media (max-width: 575px) {
+  .main-content {
+    padding-top: 90px;
+  }
+
+  .sidebar {
+    min-height: auto;
+    padding-top: 70px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0; /* Set the sidebar to stretch to the bottom of the viewport */
+    z-index: 1000;
+  }
+
+  .content {
+    margin-left: 60px;
+  }
 }
 
-.App-link {
-  color: #61dafb;
+/* BlogCreationPage.css */
+
+.editor-container {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+  overflow: hidden; /* Hide any content that overflows the container */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.draft-editor-wrapper {
+  height: 100%;
+}
+
+.draft-editor-content {
+  height: calc(100% - 42px); /* Adjust the height based on the toolbar height */
+  overflow-y: auto;
+}
+
+.draft-editor-toolbar {
+  position: sticky;
+  top: 0;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-bottom: none;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  z-index: 1;
 }

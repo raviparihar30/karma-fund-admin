@@ -1,0 +1,28 @@
+/* DraftEditor.css */
+
+.editor-container {
+  height: 400px; /* Set a fixed height for the editor container */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+  overflow: hidden; /* Hide any content that overflows the container */
+}
+
+.draft-editor-wrapper {
+  height: 100%;
+}
+
+.draft-editor-content {
+  overflow: auto;
+}
+
+.draft-editor-toolbar {
+  position: sticky;
+  top: 0;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-bottom: none;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  z-index: 1;
+}
