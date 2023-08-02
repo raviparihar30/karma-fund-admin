@@ -9,8 +9,8 @@ import BlogCreationPage from "../components/BlogCreationPage";
 import LoginPage from "../components/LoginPage";
 
 export const useAuth = () => {
-  const isAuthenticated = localStorage.getItem("token") !== null; // Check if token exists in localStorage
   const navigate = useNavigate();
+  const isAuthenticated = localStorage.getItem("token") !== null; // Check if token exists in localStorage
 
   if (!isAuthenticated) {
     // Redirect to login page if the user is not authenticated

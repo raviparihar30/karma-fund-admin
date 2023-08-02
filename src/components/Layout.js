@@ -1,14 +1,15 @@
 // Layout.js
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Offcanvas } from "react-bootstrap";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import "./Layout.css";
+import { useAuth } from "../all-routes";
 
 const Layout = () => {
   const [showSidebar, setShowSidebar] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767.98);
-
+  const navigate = useNavigate();
   const handleToggleSidebar = () => {
     setShowSidebar(!showSidebar);
   };
@@ -22,6 +23,14 @@ const Layout = () => {
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+  useEffect(() => {
+    const isAuthenticated = localStorage.getItem("token") !== null; // Check if token exists in localStorage
+
+    if (!isAuthenticated) {
+      // Redirect to login page if the user is not authenticated
+      navigate("/login");
+    }
+  }, [localStorage.getItem("token")]);
 
   return (
     <Container fluid className="layout-container">

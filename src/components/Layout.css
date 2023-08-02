@@ -44,7 +44,6 @@
 
 /* Style the links in the navigation bar */
 .navbar-nav .nav-link {
-  color: #333; /* Link text color */
   padding: 5px 10px; /* Add padding around the links */
   transition: background-color 0.3s; /* Add transition for smooth hover effect */
   background-color: #fff !important;

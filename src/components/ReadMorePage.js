@@ -12,8 +12,9 @@ const ReadMorePage = () => {
 
   const fetchBlogPost = useCallback(async () => {
     try {
-      const response = await getRequest(`blogs/${blogId}`);
-      setBlog(response ?? {});
+      const response = await getRequest(`api/posts/${blogId}`);
+      const { success, data } = response || {};
+      if (success) setBlog(data);
     } catch (error) {
       console.error("Error fetching blog posts:", error);
     }

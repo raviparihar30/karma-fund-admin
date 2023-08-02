@@ -1,7 +1,8 @@
 // api.js
 import axios from "axios";
 
-export const BASE_URL = "http://localhost:8000/api/"; // Replace with your API base URL
+export const BASE_URL = "https://4f1c-182-70-202-68.ngrok-free.app/"; // Replace with your API base URL
+export const IMAGE_URL = "https://4f1c-182-70-202-68.ngrok-free.app/uploads/";
 
 const api = axios.create({
   baseURL: BASE_URL,
@@ -10,18 +11,10 @@ const api = axios.create({
 
 export const getRequest = async (endpoint) => {
   try {
-    const response = await api.get(endpoint);
-    return response.data; // Assuming the server returns the token in the response
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const postRequest = async (endpoint, values) => {
-  try {
-    const response = await api.post(endpoint, values, {
+    const token = localStorage.getItem("token");
+    const response = await api.get(endpoint, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        Authorization: token,
       },
     });
     return response.data; // Assuming the server returns the token in the response
@@ -30,11 +23,30 @@ export const postRequest = async (endpoint, values) => {
   }
 };
 
-export const putRequest = async (endpoint, values) => {
+export const postRequest = async (endpoint, values, options = {}) => {
+  const token = localStorage.getItem("token");
+  try {
+    const response = await api.post(endpoint, values, {
+      ...options,
+      headers: {
+        Authorization: token,
+        ...options.headers,
+      },
+    });
+    return response.data; // Assuming the server returns the token in the response
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const putRequest = async (endpoint, values, options = {}) => {
+  const token = localStorage.getItem("token");
   try {
     const response = await api.put(endpoint, values, {
+      ...options,
       headers: {
-        "Content-Type": "multipart/form-data",
+        Authorization: token,
+        ...options.headers,
       },
     });
     return response.data; // Assuming the server returns the token in the response

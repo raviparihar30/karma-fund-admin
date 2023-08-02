@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { Form, Button } from "react-bootstrap";
 import QuillEditor from "./QuillEditor";
 import "./BlogCreationPage.css";
-import { BASE_URL, getRequest, postRequest, putRequest } from "../api";
+import { IMAGE_URL, getRequest, postRequest, putRequest } from "../api";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 const BlogCreationPage = () => {
@@ -24,16 +24,18 @@ const BlogCreationPage = () => {
 
   const fetchBlogPost = useCallback(async () => {
     try {
-      const response = await getRequest(`blogs/${blogId}`);
-      Object.keys(response).map((key) => {
-        // eslint-disable-next-line
-        if (key == "image") {
-          setImagePreview(BASE_URL + response.image);
-          setExistingImage(response.image);
-        } else {
-          setValue(key, response[key]);
-        }
-      });
+      const response = await getRequest(`/api/posts/${blogId}`);
+      const { success, data } = response || {};
+      success &&
+        Object.keys(data).map((key) => {
+          // eslint-disable-next-line
+          if (key == "image") {
+            setImagePreview(IMAGE_URL + data.image);
+            setExistingImage(data.image);
+          } else {
+            setValue(key, data[key]);
+          }
+        });
     } catch (error) {
       console.error("Error fetching blog posts:", error);
     }
@@ -49,18 +51,18 @@ const BlogCreationPage = () => {
   const onSubmit = async (data) => {
     const formData = new FormData();
     formData.append("title", data.title);
-    formData.append("subtitle", data.subtitle);
+    formData.append("subTitle", data.subTitle);
     formData.append("description", data.description);
     formData.append("image", data.image[0] ?? existingImage);
     if (blogId) {
       try {
-        const response = await putRequest(`blogs/${blogId}`, formData, {
+        const response = await putRequest(`/api/posts/${blogId}`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         });
 
-        if (response) {
+        if (response?.success) {
           navigate("/blog-listing");
         }
       } catch (error) {
@@ -68,7 +70,7 @@ const BlogCreationPage = () => {
       }
     } else {
       try {
-        const response = await postRequest("blogs", formData, {
+        const response = await postRequest("/api/posts/", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -106,9 +108,7 @@ const BlogCreationPage = () => {
             type="file"
             label={existingImage || "Choose an image"}
             accept="image/*"
-            {...register("image", {
-              required: !blogId && "Image is required",
-            })}
+            {...register("image")}
             custom
             onChange={handleImagePreview}
             data-browse="Select an image"
@@ -138,16 +138,16 @@ const BlogCreationPage = () => {
             </Form.Text>
           )}
         </Form.Group>
-        <Form.Group controlId="subtitle">
+        <Form.Group controlId="subTitle">
           <Form.Label>Subtitle</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Enter the subtitle"
-            {...register("subtitle", { required: "Subtitle is required" })}
+            placeholder="Enter the subTitle"
+            {...register("subTitle", { required: "Subtitle is required" })}
           />
-          {errors.subtitle && (
+          {errors.subTitle && (
             <Form.Text className="text-danger">
-              {errors.subtitle.message}
+              {errors.subTitle.message}
             </Form.Text>
           )}
         </Form.Group>

@@ -36,8 +36,8 @@ html,
 }
 
 .sidebar .nav-link:hover {
-  background-color: #4a4e54;
-  color: #fff;
+  color: #fff !important;
+  padding: 8px 20px;
 }
 
 /* Main content styles */
@@ -48,11 +48,11 @@ html,
 }
 
 /* Header styles */
-.navbar {
+/* .navbar {
   background-color: #343a40;
   color: #fff;
   padding: 10px 20px;
-}
+} */
 
 .navbar .form-inline .form-control {
   margin-right: 10px;

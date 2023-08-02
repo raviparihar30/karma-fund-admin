@@ -3,26 +3,45 @@ import React, { useEffect, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import "./LoginPage.css"; // Import the updated CSS file with the correct path
-// import { login } from "../api";
+import { postRequest } from "../api";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    email: "",
+    password: "",
+  });
   const [loaded, setLoaded] = useState(false);
 
-  const onSubmit = async (data) => {
-    // try {
-    //   // Call the login API
-    //   const token = await login(data.username, data.password);
-    //   // Assuming login was successful, store the token in localStorage or state
-    //   localStorage.setItem("token", token);
-    // } catch (error) {
-    //   // Handle login error here
-    //   console.error("Login failed:", error);
-    // }
+  const onSubmit = async ({ email, password }) => {
+    try {
+      // Call the login API
+      const response = await postRequest("api/users/login", {
+        email,
+        password,
+      });
+
+      if (response) {
+        localStorage.setItem("token", response?.data?.token);
+        navigate("/blog-listing");
+      }
+      // Assuming login was successful, store the token in localStorage or state
+    } catch (error) {
+      // Handle login error here
+      Swal.fire({
+        title: "Error!",
+        text: error?.response?.data?.message,
+        icon: "error",
+        confirmButtonText: "Try Again",
+      });
+      console.error("Login failed:", error?.response?.data?.message);
+    }
   };
 
   // Set loaded to true after a short delay to trigger the animation
@@ -40,14 +59,14 @@ const LoginPage = () => {
         <h2>Login</h2>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <div className="form-group">
-            <label>Username</label>
+            <label>Email</label>
             <input
               type="text"
-              {...register("username", { required: true })}
-              className={`form-control ${errors.username ? "is-invalid" : ""}`}
+              {...register("email", { required: true })}
+              className={`form-control ${errors.email ? "is-invalid" : ""}`}
             />
-            {errors.username && (
-              <span className="text-danger">Username is required</span>
+            {errors.email && (
+              <span className="text-danger">Email is required</span>
             )}
           </div>
 
