@@ -1,50 +1,93 @@
-import React from "react";
-import ReactQuill, { Quill } from "react-quill";
-import "react-quill/dist/quill.snow.css";
+import { useState } from "react";
+import SunEditor from "suneditor-react";
+import "suneditor/dist/css/suneditor.min.css";
 
-// Import the image upload module for Quill
-const Image = Quill.import("formats/image");
-Image.className = "quill-image";
-Quill.register(Image, true);
+const defaultFonts = [
+  "Arial",
+  "Comic Sans MS",
+  "Courier New",
+  "Impact",
+  "Georgia",
+  "Tahoma",
+  "Trebuchet MS",
+  "Verdana",
+];
 
-const QuillEditor = ({ value, onChange }) => {
-  const handleEditorChange = (content, _, __, editor) => {
-    onChange(editor.getHTML());
-  };
+const sortedFontOptions = [
+  "Logical",
+  "Salesforce Sans",
+  "Garamond",
+  "Sans-Serif",
+  "Serif",
+  "Times New Roman",
+  "Helvetica",
+  ...defaultFonts,
+].sort();
+
+const SunEditorComponent = ({ value, onChange }) => {
+  // const [value, onChange] = useState("");
+  // const [fieldValue, setFieldValue] = useState("");
 
   return (
-    <ReactQuill
-      value={value}
-      onChange={handleEditorChange}
-      modules={{
-        toolbar: {
-          container: [
-            [{ header: [1, 2, false] }],
-            ["bold", "italic", "underline", "strike", "blockquote"],
-            [{ list: "ordered" }, { list: "bullet" }],
-            [{ align: [] }],
-            ["link", "image"], // Add the "image" option to the toolbar
-            ["clean"],
-          ],
-        },
+    <SunEditor
+      setContents={value}
+      onChange={(newInput) => {
+        onChange(newInput);
+        // setFieldValue("settlementNotes", newInput);
+        const container = document.createElement("div");
+        container.innerHTML = newInput;
+        if (container) {
+          const tables = container.querySelectorAll("table");
+          const tds = container.querySelectorAll("td");
+          const ths = container.querySelectorAll("th");
+
+          for (let table of tables) {
+            table.style.border = "1px solid #2B2B2B";
+            table.style.borderCollapse = "collapse";
+            table.style.width = "100%";
+            table.style.marginTop = "20px";
+          }
+          for (let td of tds) {
+            td.style.border = "1px solid #2B2B2B";
+            td.style.borderCollapse = "collapse";
+            td.style.padding = "10px";
+          }
+          for (let th of ths) {
+            th.style.border = "1px solid #2B2B2B";
+            th.style.borderCollapse = "collapse";
+            th.style.padding = "10px";
+          }
+
+          // setFieldValue("settlementNotes", container.innerHTML);
+          onChange(container.innerHTML);
+        }
       }}
-      formats={[
-        "header",
-        "bold",
-        "italic",
-        "underline",
-        "strike",
-        "blockquote",
-        "list",
-        "bullet",
-        "align",
-        "link",
-        "image",
-      ]} // Include the 'image' format
-      theme="snow"
-      className="quill-container"
+      setOptions={{
+        buttonList: [
+          ["undo", "redo"],
+          ["font", "fontSize"],
+          // ['paragraphStyle', 'blockquote'],
+          ["bold", "underline", "italic", "strike", "subscript", "superscript"],
+          ["fontColor", "hiliteColor"],
+          ["align", "list", "lineHeight"],
+          ["outdent", "indent"],
+
+          ["table", "horizontalRule", "link", "image"],
+          // ['math'] //You must add the 'katex' library at options to use the 'math' plugin.
+          // ['imageGallery'], // You must add the "imageGalleryUrl".
+          // ["fullScreen", "showBlocks", "codeView"],
+          ["removeFormat"],
+
+          // ['save', 'template'],
+          // '/', Line break
+        ], // Or Array of button list, eg. [['font', 'align'], ['image']]
+        defaultTag: "div",
+        minHeight: "300px",
+        showPathLabel: false,
+        font: sortedFontOptions,
+      }}
     />
   );
 };
 
-export default QuillEditor;
+export default SunEditorComponent;

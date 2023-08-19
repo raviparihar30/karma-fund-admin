@@ -2,10 +2,10 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { Form, Button } from "react-bootstrap";
-import QuillEditor from "./QuillEditor";
 import "./BlogCreationPage.css";
 import { IMAGE_URL, getRequest, postRequest, putRequest } from "../api";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import CKEditorComponent from "./QuillEditor";
 
 const BlogCreationPage = () => {
   const {
@@ -15,7 +15,11 @@ const BlogCreationPage = () => {
     watch,
     formState: { errors },
   } = useForm();
+  const [editorContent, setEditorContent] = useState("");
 
+  const handleEditorChange = (newContent) => {
+    setValue("description", newContent);
+  };
   const navigate = useNavigate();
   const [imagePreview, setImagePreview] = useState(null);
   const [existingImage, setExistingImage] = useState(null);
@@ -100,7 +104,7 @@ const BlogCreationPage = () => {
 
   return (
     <div className="blog-creation-page">
-      <h2>Create a New Blog</h2>
+      <h2>Create New Blog</h2>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Form.Group controlId="image">
           <Form.Label>Image</Form.Label>
@@ -154,9 +158,9 @@ const BlogCreationPage = () => {
         <Form.Group controlId="description">
           <Form.Label>Description</Form.Label>
           {/* Use the QuillEditor component here */}
-          <QuillEditor
-            value={watch("description")} // Provide a default value or the value from 'register("description")' if available
-            onChange={(value) => setValue("description", value)} // If you use the 'setValue' function from react-hook-form to update the 'description' value
+          <CKEditorComponent
+            value={watch("description")}
+            onChange={handleEditorChange}
           />
           {errors.description && (
             <Form.Text className="text-danger">
