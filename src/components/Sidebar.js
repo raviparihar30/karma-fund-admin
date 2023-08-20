@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Navbar, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { UserContext } from "../context/user";
 
 const Sidebar = () => {
+  const { setLoggedInUser } = useContext(UserContext);
+
   return (
     <Navbar bg="dark" variant="dark" className="flex-column sidebar">
       <Navbar.Brand>KARMA FUND</Navbar.Brand>
@@ -31,6 +34,8 @@ const Sidebar = () => {
           }}
           onClick={() => {
             localStorage.removeItem("token");
+            localStorage.removeItem("rn-user");
+            setLoggedInUser(null);
           }}
         >
           Log out

@@ -1,14 +1,17 @@
 // LoginPage.js
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import "./LoginPage.css"; // Import the updated CSS file with the correct path
 import { postRequest } from "../api";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { UserContext } from "../context/user";
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const { setLoggedInUser, loggedInUser } = useContext(UserContext);
+
   const {
     register,
     handleSubmit,
@@ -19,16 +22,25 @@ const LoginPage = () => {
   });
   const [loaded, setLoaded] = useState(false);
 
+  useEffect(() => {
+    if (loggedInUser) {
+      navigate("/blog-listing");
+    }
+  }, [loggedInUser]);
+
   const onSubmit = async ({ email, password }) => {
     try {
       // Call the login API
       const response = await postRequest("api/users/login", {
         email,
         password,
+        role: "admin",
       });
 
       if (response) {
         localStorage.setItem("token", response?.data?.token);
+        localStorage.setItem("rn-user", JSON.stringify(response?.data?.user));
+        setLoggedInUser(response?.data?.user);
         navigate("/blog-listing");
       }
       // Assuming login was successful, store the token in localStorage or state
