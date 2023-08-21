@@ -1,8 +1,8 @@
 // api.js
 import axios from "axios";
 
-export const BASE_URL = "https://dcdc-27-57-156-44.ngrok-free.app/"; // Replace with your API base URL
-export const IMAGE_URL = "https://dcdc-27-57-156-44.ngrok-free.app/uploads/";
+export const BASE_URL = "https://81c0-106-200-194-102.ngrok-free.app/"; // Replace with your API base URL
+export const IMAGE_URL = "https://81c0-106-200-194-102.ngrok-free.app/uploads/";
 
 const api = axios.create({
   baseURL: BASE_URL,
