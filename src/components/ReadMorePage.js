@@ -14,7 +14,7 @@ const ReadMorePage = () => {
     try {
       const response = await getRequest(`api/posts/${blogId}`);
       const { success, data } = response || {};
-      if (success) setBlog(data);
+      if (success) setBlog(data?.post ?? {});
     } catch (error) {
       console.error("Error fetching blog posts:", error);
     }
