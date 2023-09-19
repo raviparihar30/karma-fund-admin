@@ -29,7 +29,8 @@ const BlogCreationPage = () => {
   const fetchBlogPost = useCallback(async () => {
     try {
       const response = await getRequest(`/api/posts/${blogId}`);
-      const { success, data } = response || {};
+      const { success, data: responseData } = response || {};
+      const { post: data } = responseData || {};
       success &&
         Object.keys(data).map((key) => {
           // eslint-disable-next-line
