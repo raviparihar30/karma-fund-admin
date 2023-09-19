@@ -1,9 +1,10 @@
 // BlogListing.js
 import React, { useState, useEffect } from "react";
 import { Card, Button } from "react-bootstrap";
-import { IMAGE_URL, getRequest } from "../api";
+import { IMAGE_URL, deleteRequest, getRequest } from "../api";
 import { useNavigate } from "react-router-dom";
 import "./BlogListing.css"; // Import your custom CSS
+import Swal from "sweetalert2";
 
 const DEFAULT_IMAGE_URL =
   "https://www.mericity.com/resources/images/Default.jpg"; // Replace with your default image URL
@@ -23,6 +24,35 @@ const BlogListing = () => {
       if (success) setBlogPosts(data);
     } catch (error) {
       console.error("Error fetching blog posts:", error);
+    }
+  };
+
+  const handleDelete = async (postId) => {
+    const shouldDelete = await Swal.fire({
+      title: "Are you sure?",
+      text: "You will not be able to recover this blog post!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (shouldDelete.isConfirmed) {
+      try {
+        const response = await deleteRequest(`api/posts/${postId}`);
+        console.log("response  => ", response);
+        const { success, data } = response || {};
+        if (success) fetchBlogPosts();
+      } catch (error) {
+        console.error("Error deleting blog post:", error);
+        Swal.fire(
+          "Error",
+          "An error occurred while deleting the blog post.",
+          "error"
+        );
+      }
     }
   };
 
@@ -59,11 +89,18 @@ const BlogListing = () => {
                   Read More
                 </Button>
                 <Button
-                  variant="primary"
+                  variant="secondary"
                   onClick={() => navigate(`/create-blog?blogId=${post.id}`)}
-                  className="blog-card-button"
+                  className="blog-card-button bg-secondary me-2"
                 >
                   Edit
+                </Button>
+                <Button
+                  variant="error"
+                  className="blog-card-button bg-danger"
+                  onClick={() => handleDelete(post.id)}
+                >
+                  Delete
                 </Button>
               </Card.Body>
             </Card>

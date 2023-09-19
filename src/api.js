@@ -54,3 +54,19 @@ export const putRequest = async (endpoint, values, options = {}) => {
     throw error;
   }
 };
+
+export const deleteRequest = async (endpoint, options = {}) => {
+  const token = localStorage.getItem("token");
+  try {
+    const response = await api.delete(endpoint, {
+      ...options,
+      headers: {
+        Authorization: token,
+        ...options.headers,
+      },
+    });
+    return response.data; // Assuming the server returns the token in the response
+  } catch (error) {
+    throw error;
+  }
+};
